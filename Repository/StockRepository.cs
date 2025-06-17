@@ -52,7 +52,6 @@ namespace webapi.Repository
 
         public Task<bool> StockExist(int id)
         {
-            Console.WriteLine("jabbbba");
             return _context.Stock.AnyAsync(x => x.Id == id);
         }
 

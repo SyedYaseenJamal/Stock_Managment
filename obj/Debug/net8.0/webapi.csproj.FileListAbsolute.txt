@@ -142,3 +142,4 @@ D:\Visual Studio Code\webapi\bin\Debug\net8.0\Microsoft.AspNetCore.JsonPatch.dll
 D:\Visual Studio Code\webapi\bin\Debug\net8.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
 D:\Visual Studio Code\webapi\bin\Debug\net8.0\Newtonsoft.Json.dll
 D:\Visual Studio Code\webapi\bin\Debug\net8.0\Newtonsoft.Json.Bson.dll
+D:\Visual Studio Code\webapi\obj\Debug\net8.0\webapi.sourcelink.json

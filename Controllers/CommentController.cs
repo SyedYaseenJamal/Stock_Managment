@@ -28,7 +28,7 @@ namespace webapi.Controllers
             var CommentDto = Comments.Select(s=>s.ToCommentDto());
             return Ok(CommentDto);
         }
-        [HttpGet("{id}")]
+        [HttpGet("{id:int}")]
         public async Task<IActionResult> GetById([FromRoute] int id)
         {
             var comment = await _CommentRepo.GetByIdAsync(id);
@@ -38,9 +38,14 @@ namespace webapi.Controllers
             }
             return Ok(comment.ToCommentDto());
         }
-        [HttpPost("{StockId}")]
+        [HttpPost("{StockId:int}")]
         public async Task<IActionResult> Create([FromRoute] int StockId, CreateCommentrequest CreateDto)
         {
+            if(!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             if(!await _StockRepo.StockExist(StockId))
             {
                 return BadRequest("Stock does Not Exist");
@@ -52,9 +57,14 @@ namespace webapi.Controllers
 
         }
         [HttpPut]
-        [Route("{id}")]
+        [Route("{id:int}")]
         public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateCommentRequestDto UpdateDto)
         {
+            if(!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var comment = await _CommentRepo.UpdateAsync(id, UpdateDto.ToCommentFromUpdate());
             if(comment == null)
             {
@@ -63,9 +73,13 @@ namespace webapi.Controllers
             return Ok(comment.ToCommentDto());
         }
         [HttpDelete]
-        [Route("id")]
+        [Route("{id:int}")]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
+            if(!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             var commentModel = await _CommentRepo.DeleteAsync(id);
             if(commentModel == null)
             {
