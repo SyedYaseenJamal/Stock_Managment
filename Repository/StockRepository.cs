@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 using webapi.Data;
 using webapi.Dtos.stock;
+using webapi.Helpers;
 using webapi.Interfaces;
 using webapi.Mappers;
 using webapi.models;
@@ -39,9 +40,18 @@ namespace webapi.Repository
             return stockmodel;
         }
 
-        public async Task<List<stock>> GetAllAsync()
+        public async Task<List<stock>> GetAllAsync(QueryObject query)
         {
-            return await _context.Stock.Include(c=> c.Comments).ToListAsync();
+            var stock = _context.Stock.Include(c => c.Comments).AsQueryable();  // ToListAsync();
+            if (!string.IsNullOrWhiteSpace(query.CompanyName))
+            {
+                stock = stock.Where(s => s.CompanyName.Contains(query.CompanyName));
+            }
+            if (!string.IsNullOrWhiteSpace(query.Symbol))
+            {
+                stock = stock.Where(s => s.Symbol.Contains(query.Symbol));
+            }
+            return await stock.ToListAsync();
         }
 
         public async Task<stock?> GetByIdAsync(int id)
